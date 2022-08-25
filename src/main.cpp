@@ -1,32 +1,36 @@
 #include <Arduino.h>
-#define sensorPin 2 // RCWL-0516 connected to this pin
-#define ledPin 5 // LED connected to this pin
-int sensorVal = 0; // initial RCWL-0516 output value as seen by Nano
-int led_fire_duration = 5000;
+#define movement_signal 19 // RCWL-0516 connected to this pin
+#define LedPin 5 // LED connected to this pin
+int Sensor_State = 1; // initial RCWL-0516 output value as seen by Nano
+//int led_fire_duration = 5000;
 
 void setup() {
 
 Serial.begin (115200); // initialize serial communication:
 
-pinMode (sensorPin, INPUT);                               // RCWL-0516 output is input for Nano
-pinMode (ledPin, OUTPUT);                                  // LED as OUTPUT
-digitalWrite (ledPin, LOW);                                     // LED off at start
+pinMode (movement_signal, INPUT);                               // RCWL-0516 output is input for Nano
+pinMode (LedPin, OUTPUT);                                  // LED as OUTPUT
+//digitalWrite (ledPin, LOW);                                     // LED off at start
 }
 
 void loop(){
 
-sensorVal = digitalRead (sensorPin);                     // read sensor value
+int Sensor_State = digitalRead(movement_signal);
+  if (Sensor_State == HIGH) {
+    digitalWrite (LedPin, HIGH);
+  }
+  else { 
+    digitalWrite (LedPin, LOW);
+    }
 
-if (sensorVal == LOW)
-  {
-   digitalWrite(ledPin, LOW);
-   Serial.println("LED OFF");
-   }
+   Serial.print("Motion sensor: ");
+  Sensor_State = digitalRead(movement_signal);
+  if (Sensor_State == 1) {
+    Serial.println("Motion detected");
+    //Serial.printf("vibration value = %.0f \n", Sensor_State);
+  }
+  else {
+    Serial.println("All quiet");
+  }
 
-else
-   {
-   digitalWrite(ledPin, HIGH);
-  Serial.println("LED OFF");
-   delay (led_fire_duration);                                        // during this period the led will be ON
-}
 }
