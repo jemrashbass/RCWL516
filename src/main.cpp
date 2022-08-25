@@ -19,7 +19,7 @@ int Sensor_State = digitalRead(movement_signal);
   if (Sensor_State == HIGH) {
     digitalWrite (LedPin, HIGH);
   }
-  else { 
+  else {
     digitalWrite (LedPin, LOW);
     }
 
@@ -32,5 +32,5 @@ int Sensor_State = digitalRead(movement_signal);
   else {
     Serial.println("All quiet");
   }
-
+delay(5000);
 }
